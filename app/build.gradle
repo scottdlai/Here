@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 27
     buildToolsVersion "30.0.2"
 
     defaultConfig {
@@ -26,8 +26,24 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.1'
+    implementation 'com.android.support:design:27.0.0'
+
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
 }
+
+//dependencies {
+//    implementation fileTree(dir: 'libs', include: ['*.jar'])
+////    implementation 'com.androidx.support:appcompat-v7:30.0.0'
+//    implementation 'com.androidx.support:design:30.0.0'
+//    implementation 'com.androidx.support.constraint:constraint-layout:2.0.1'
+//    implementation 'androidx.appcompat:appcompat:1.2.0'
+//    testImplementation 'junit:junit:4.12'
+//    androidTestImplementation 'com.androidx.support.test:runner:1.1.2'
+//    androidTestImplementation 'com.androidx.support.test.espresso:espresso-core:3.3.0'
+//
+//    //Circular ImageView
+//    implementation 'de.hdodenhof:circleimageview:2.2.0'
+//}

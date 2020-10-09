@@ -13,9 +13,8 @@
         <activity android:name=".ClassHistoryTeacher" />
         <activity android:name=".ClassListTeacher" />
         <activity android:name=".NotificationActivity" />
-        <activity android:name=".codeEnter" />
         <activity android:name=".ClassListStudent" />
-        <activity android:name=".EnterCodeActivity">
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

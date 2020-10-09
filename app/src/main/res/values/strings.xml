@@ -12,4 +12,7 @@
     <string name="class5date">Class5date</string>
     <string name="submit_btn">Submit</string>
     <string name="notification_title">Notification</string>
+    <string name="navigation_drawer_open">Open Navigation Drawer</string>
+    <string name="navigation_drawer_close">Close Navigation Drawer</string>
+    <string name="toolbar_title">Notes App</string>
 </resources>
