@@ -13,8 +13,8 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:text="CLASS LIST"
-        android:textAlignment="center"
         android:textSize="30sp"
+        android:gravity="center"
         android:textStyle="bold" />
 
     <LinearLayout
@@ -33,14 +33,19 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="#C4C4C4"
+            android:gravity="center"
             android:text="@string/class1"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            android:textSize="24sp" />
 
         <TextView
             android:id="@+id/classtime1"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="#C4C4C4"
+            android:gravity="center"
             android:text="TextView"
             android:textAlignment="center" />
     </LinearLayout>
@@ -61,14 +66,19 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="#C4C4C4"
+            android:gravity="center"
             android:text="@string/class2"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            android:textSize="24sp" />
 
         <TextView
             android:id="@+id/classtime2"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:background="#C4C4C4"
             android:layout_weight="1"
+            android:gravity="center"
             android:text="TextView"
             android:textAlignment="center" />
     </LinearLayout>
@@ -90,14 +100,19 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="#C4C4C4"
+            android:gravity="center"
             android:text="@string/class3"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            android:textSize="24sp" />
 
         <TextView
             android:id="@+id/classtime3"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:background="#C4C4C4"
             android:layout_weight="1"
+            android:gravity="center"
             android:text="TextView"
             android:textAlignment="center" />
     </LinearLayout>
@@ -118,15 +133,20 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="#C4C4C4"
+            android:gravity="center"
             android:text="@string/class4"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            android:textSize="24sp" />
 
         <TextView
             android:id="@+id/classtime4"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="#C4C4C4"
             android:text="TextView"
+            android:gravity="center"
             android:textAlignment="center" />
 
     </LinearLayout>
@@ -147,14 +167,19 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="#C4C4C4"
+            android:gravity="center"
             android:text="@string/class5"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            android:textSize="24sp" />
 
         <TextView
             android:id="@+id/classtime5"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="#C4C4C4"
+            android:gravity="center"
             android:text="TextView"
             android:textAlignment="center" />
     </LinearLayout>
