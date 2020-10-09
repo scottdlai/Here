@@ -9,7 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".NotificationActivity"></activity>
+        <activity android:name=".ClassHistoryTeacher"></activity>
+        <activity android:name=".ClassListTeacher" />
+        <activity android:name=".NotificationActivity" />
         <activity android:name=".codeEnter" />
         <activity android:name=".ClassListStudent">
             <intent-filter>

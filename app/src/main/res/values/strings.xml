@@ -5,4 +5,9 @@
     <string name="class3">Class3</string>
     <string name="class4">Class4</string>
     <string name="class5">Class5</string>
+    <string name="class1date">Class1date</string>
+    <string name="class2date">Class2date</string>
+    <string name="class3date">Class3date</string>
+    <string name="class4date">Class4date</string>
+    <string name="class5date">Class5date</string>
 </resources>
