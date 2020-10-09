@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Here</string>
+    <string name="class1">Class1</string>
+    <string name="class2">Class2</string>
+    <string name="class3">Class3</string>
+    <string name="class4">Class4</string>
+    <string name="class5">Class5</string>
 </resources>
