@@ -11,4 +11,5 @@
     <string name="class4date">Class4date</string>
     <string name="class5date">Class5date</string>
     <string name="submit_btn">Submit</string>
+    <string name="notification_title">Notification</string>
 </resources>
