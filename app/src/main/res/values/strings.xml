@@ -15,4 +15,8 @@
     <string name="navigation_drawer_open">Open Navigation Drawer</string>
     <string name="navigation_drawer_close">Close Navigation Drawer</string>
     <string name="toolbar_title">Notes App</string>
+
+    <string name="menu_bottom_1">Classes</string>
+    <string name="menu_bottom_2">Here</string>
+    <string name="menu_bottom_3">Notifications</string>
 </resources>
