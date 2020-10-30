@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "991280191967",
+    "firebase_url": "https://here-4f8dd.firebaseio.com",
+    "project_id": "here-4f8dd",
+    "storage_bucket": "here-4f8dd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:991280191967:android:2250a885b45695494e4c6a",
+        "android_client_info": {
+          "package_name": "ca.bcit.here"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "991280191967-o9ome6dg4sls0lqag9erv3kk1pjlja23.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBKV_VmKztdbZlcx9I17WZUDfZ97dcQrp4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "991280191967-o9ome6dg4sls0lqag9erv3kk1pjlja23.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
