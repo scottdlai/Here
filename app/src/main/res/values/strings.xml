@@ -19,4 +19,7 @@
     <string name="menu_bottom_1">Classes</string>
     <string name="menu_bottom_2">Here</string>
     <string name="menu_bottom_3">Notifications</string>
+
+    <string name="CodeGenText">Start your class Attendance.</string>
+    <string name="CodeGenBtnText">Start</string>
 </resources>
