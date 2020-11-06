@@ -3,14 +3,14 @@
 
     <item
         android:id="@+id/menu_bottom_1"
-        android:icon="@android:drawable/ic_menu_search"
+        android:icon="@drawable/ic_class_open_file"
         android:title="@string/menu_bottom_1" />
     <item
         android:id="@+id/menu_bottom_2"
-        android:icon="@android:drawable/ic_menu_camera"
+        android:icon="@drawable/ic_menu_home"
         android:title="@string/menu_bottom_2" />
     <item
         android:id="@+id/menu_bottom_3"
-        android:icon="@android:drawable/ic_menu_call"
+        android:icon="@drawable/ic_menu_notification"
         android:title="@string/menu_bottom_3" />
 </menu>
