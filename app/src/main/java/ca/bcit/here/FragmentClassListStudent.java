@@ -5,6 +5,8 @@ import androidx.annotation.Nullable;
 
 //import android.app.Fragment;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -48,24 +50,32 @@ public class FragmentClassListStudent extends Fragment {
         RecyclerView classListRecycler = view.findViewById(R.id.classListRecycler);
 
         readBundle(getArguments());
-        CaptionedImagesAdapter adapter = new CaptionedImagesAdapter(classNames,classTimes,classIds);
+        CaptionedImagesAdapter adapter = new CaptionedImagesAdapter(classNames, classTimes, classIds);
         classListRecycler.setAdapter(adapter);
 
         GridLayoutManager lm = new GridLayoutManager(view.getContext(), 1);
         classListRecycler.setLayoutManager(lm);
-//        adapter.setListener(new CaptionedImagesAdapter.Listener() {
-//
-//            public void onClick(String classId) {
-//
-//                Intent i = new Intent(view.getContext(), ClassActivity.class);
-//
-//                i.putExtra("classId", classId);
-//
-//                startActivity(i);
-//
-//            }
-//
-//        });
+        adapter.setListener(new CaptionedImagesAdapter.Listener() {
+
+            public void onClick(String classId) {
+
+                Bundle bundle = new Bundle();
+                bundle.putString("id", classId);
+
+                ClassInfoFragment classDetailFrag = ClassInfoFragment.newInstance(classId);
+
+                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+
+                // Replace whatever is in the fragment_container view with this fragment,
+                // and add the transaction to the back stack if needed
+                transaction.replace(R.id.frameLayout, classDetailFrag);
+                transaction.addToBackStack(null);
+
+                // Commit the transaction
+                transaction.commit();
+            }
+
+        });
         return view;
 
 

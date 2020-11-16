@@ -70,13 +70,13 @@ public class MainActivity extends AppCompatActivity {
 
                                             classNames.add((String) document.getData().get("className"));
                                             classTimes.add((String) document.getData().get("classTime"));
-                                            classIds.add(document.getId());
+                                            classIds.add(document.getId().trim());
                                         }
                                     } else {
                                         Log.d(TAG, "Cached get failed: ", task.getException());
                                     }
 
-                                    transaction.replace(R.id.frameLayout,FragmentClassListStudent.newInstance(classNames.toArray(new String[classNames.size()]),classTimes.toArray(new String[classNames.size()]),classTimes.toArray(new String[classNames.size()]))).commitNowAllowingStateLoss();
+                                    transaction.replace(R.id.frameLayout,FragmentClassListStudent.newInstance(classNames.toArray(new String[classNames.size()]),classTimes.toArray(new String[classNames.size()]),classIds.toArray(new String[classNames.size()]))).commitNowAllowingStateLoss();
                                 }
                             });
                     break;

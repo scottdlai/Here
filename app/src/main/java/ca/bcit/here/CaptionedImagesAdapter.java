@@ -96,6 +96,7 @@ class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImagesAdapter
         TextView timeTextView = cardView.findViewById(R.id.classTime);
 
         timeTextView.setText(times[position]);
+        Log.e(TAG, ids[position]);
 
         cardView.setOnClickListener(new View.OnClickListener() {
 
@@ -107,11 +108,14 @@ class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImagesAdapter
 
                     listener.onClick(ids[position]);
 
+
                 }
+
 
             }
 
         });
+
 
     }
 
