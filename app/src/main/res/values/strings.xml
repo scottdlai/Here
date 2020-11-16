@@ -22,4 +22,6 @@
 
     <string name="CodeGenText">Start your class Attendance.</string>
     <string name="CodeGenBtnText">Start</string>
+    <string name="addClassName">Class Name</string>
+    <string name="btnAddClass">Add Class</string>
 </resources>
