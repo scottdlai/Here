@@ -77,8 +77,6 @@ public class CodeGenerator extends Fragment {
                 .collection("Session")
                 .document(SessionKey);
 
-
-
         Random rand = new Random();
         String code ="";
         int codeLength = 6;
