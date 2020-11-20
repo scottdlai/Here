@@ -24,4 +24,9 @@
     <string name="CodeGenBtnText">Start</string>
     <string name="addClassName">Class Name</string>
     <string name="btnAddClass">Add Class</string>
+    <string name="btnJoinClass">Join Class</string>
+    <string name="classNameHint">Class Name</string>
+    <string name="classSearchBtn">Search</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

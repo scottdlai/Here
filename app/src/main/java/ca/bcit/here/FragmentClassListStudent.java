@@ -6,6 +6,8 @@ import androidx.annotation.Nullable;
 //import android.app.Fragment;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -39,7 +41,7 @@ import static android.content.ContentValues.TAG;
 public class FragmentClassListStudent extends Fragment {
 
     FirebaseFirestore db;
-
+    private FragmentManager fragmentManager;
     private String[] classNames;
     private String[] classTimes;
     private String[] classIds;
@@ -69,6 +71,8 @@ public class FragmentClassListStudent extends Fragment {
         View view = inflater.inflate(R.layout.fragment_class_list_student, container, false);
         RecyclerView classListRecycler = view.findViewById(R.id.classListRecycler);
         Button addBtn = view.findViewById(R.id.addBtn);
+        Button joinBtn = view.findViewById(R.id.joinBtn);
+        fragmentManager = getFragmentManager();
 
         readBundle(getArguments());
         CaptionedImagesAdapter adapter = new CaptionedImagesAdapter(classNames,classTimes,classIds);
@@ -76,6 +80,13 @@ public class FragmentClassListStudent extends Fragment {
 
         GridLayoutManager lm = new GridLayoutManager(view.getContext(), 1);
         classListRecycler.setLayoutManager(lm);
+
+        joinBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showJoinDialog(v);
+            }
+        });
 
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,6 +96,45 @@ public class FragmentClassListStudent extends Fragment {
         });
 
         return view;
+    }
+
+    private void showJoinDialog( View view) {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(view.getContext());
+
+        LayoutInflater inflater = getLayoutInflater();
+
+        final View dialogView = inflater.inflate(R.layout.join_dailog, null);
+        dialogBuilder.setView(dialogView);
+
+        final EditText editTextClassName = dialogView.findViewById(R.id.classNameEditText);
+
+        final Button btnJoin = dialogView.findViewById(R.id.searchClassBtn);
+
+        dialogBuilder.setTitle("Search for a class name");
+
+        final AlertDialog alertDialog = dialogBuilder.create();
+        alertDialog.show();
+
+        btnJoin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String name = editTextClassName.getText().toString().trim();
+
+                if (TextUtils.isEmpty(name)) {
+                    editTextClassName.setError("A Class name is required");
+                    return;
+                }
+                searchClass(name);
+                alertDialog.dismiss();
+            }
+        });
+
+
+    }
+    private void searchClass(String name){
+        Log.e(TAG, "Does it get here");
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.frameLayout,searchClassFragment.newInstance(name)).commitAllowingStateLoss();;
     }
 
     private void showAddDialog(final String readingId, View view) {
