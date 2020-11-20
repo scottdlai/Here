@@ -75,11 +75,34 @@ public class FragmentClassListStudent extends Fragment {
         fragmentManager = getFragmentManager();
 
         readBundle(getArguments());
-        CaptionedImagesAdapter adapter = new CaptionedImagesAdapter(classNames,classTimes,classIds);
+        CaptionedImagesAdapter adapter = new CaptionedImagesAdapter(classNames, classTimes, classIds);
         classListRecycler.setAdapter(adapter);
 
         GridLayoutManager lm = new GridLayoutManager(view.getContext(), 1);
         classListRecycler.setLayoutManager(lm);
+
+        adapter.setListener(new CaptionedImagesAdapter.Listener() {
+
+            public void onClick(String classId) {
+
+                Bundle bundle = new Bundle();
+                bundle.putString("id", classId);
+
+                ClassInfoFragment classDetailFrag = ClassInfoFragment.newInstance(classId);
+
+                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+
+                // Replace whatever is in the fragment_container view with this fragment,
+                // and add the transaction to the back stack if needed
+                transaction.replace(R.id.frameLayout, classDetailFrag);
+                transaction.addToBackStack(null);
+
+                // Commit the transaction
+                transaction.commit();
+            }
+
+        });
+
 
         joinBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,6 +117,7 @@ public class FragmentClassListStudent extends Fragment {
                 showAddDialog("",v);
             }
         });
+
 
         return view;
     }
