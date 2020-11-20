@@ -76,18 +76,6 @@ public class ClassInfoFragment extends Fragment {
         classRef = db.collection("Courses")
                 .document(classId);
 
-//        food_text.setText("HAHA");
-//        food_category.setText("HOHO");
-
-//        classRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-//            @Override
-//            public void onSuccess(DocumentSnapshot documentSnapshot) {
-//                food_text.setText(documentSnapshot.getString("Name"));
-//            }
-//        });
-
-
-
         classRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
