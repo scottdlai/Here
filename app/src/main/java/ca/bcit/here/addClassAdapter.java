@@ -14,6 +14,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -110,17 +111,16 @@ public class addClassAdapter extends RecyclerView.Adapter<addClassAdapter.ViewHo
             @Override
 
             public void onClick(View view) {
-                Log.e(TAG, "Am i here");
 
-                    Log.e(TAG, "Am i here");
+                String userId = "Rj822fFLTjyyOYT4dij0";
+
                     db = FirebaseFirestore.getInstance();
 
                     Map<String,Object> course = new HashMap<>();
-
                     course.put("className",names[position]);
                     course.put("classTime",times[position]);
                     course.put("Teacher",teachers[position]);
-                    db.collection("users").document("Rj822fFLTjyyOYT4dij0").collection("Classes").document(ids[position]).set(course)
+                    db.collection("users").document(userId).collection("Classes").document(ids[position]).set(course)
                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
@@ -134,7 +134,28 @@ public class addClassAdapter extends RecyclerView.Adapter<addClassAdapter.ViewHo
                                 }
                             });
 
+                    Map<String,Object> data = new HashMap<>();
+                    Map<String,String> entry =new HashMap<>();
 
+
+                    String username = "Sean";
+                    entry.put(userId,username);
+                    data.put("Students",entry);
+                Log.e(TAG, data.toString());
+                    db.collection("Courses").document(ids[position]).set(data, SetOptions.merge())
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Log.d(TAG, "DocumentSnapshot successfully written!");
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.w(TAG, "Error writing document", e);
+                            }
+                        });
+                cardView.setVisibility(View.GONE);
             }
 
 
