@@ -17,18 +17,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Calendar;
@@ -75,26 +70,29 @@ public class FragmentClassListStudent extends Fragment {
         fragmentManager = getFragmentManager();
 
         readBundle(getArguments());
-        CaptionedImagesAdapter adapter = new CaptionedImagesAdapter(classNames, classTimes, classIds);
+        ClassInfoAdapter adapter = new ClassInfoAdapter(classNames, classTimes, classIds);
         classListRecycler.setAdapter(adapter);
 
         GridLayoutManager lm = new GridLayoutManager(view.getContext(), 1);
         classListRecycler.setLayoutManager(lm);
 
-        adapter.setListener(new CaptionedImagesAdapter.Listener() {
+        adapter.setListener(new ClassInfoAdapter.Listener() {
 
             public void onClick(String classId) {
 
                 Bundle bundle = new Bundle();
+
+                Log.e(TAG, classId + "THIS IS CLASS ID");
+
                 bundle.putString("id", classId);
 
-                ClassInfoFragment classDetailFrag = ClassInfoFragment.newInstance(classId);
+                ClassInfoFragment classInfoFrag = ClassInfoFragment.newInstance(classId);
 
                 FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
 
                 // Replace whatever is in the fragment_container view with this fragment,
                 // and add the transaction to the back stack if needed
-                transaction.replace(R.id.frameLayout, classDetailFrag);
+                transaction.replace(R.id.frameLayout, classInfoFrag);
                 transaction.addToBackStack(null);
 
                 // Commit the transaction
