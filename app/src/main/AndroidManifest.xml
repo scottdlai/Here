@@ -49,8 +49,6 @@
             android:label="@string/title_activity_login" /> <!-- <activity android:name=".EnterCodeActivity"></activity> -->
         <activity android:name=".ClassHistoryTeacher" />
         <activity android:name=".ClassListTeacher" />
-        <activity android:name=".FragmentNotification" />
-        <activity android:name=".FragmentClassListStudent" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

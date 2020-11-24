@@ -1,38 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
     tools:context=".FragmentEnterCode">
+
+    <Spinner
+        android:id="@+id/classChoiceSpinner"
+        android:layout_width="226dp"
+        android:layout_height="wrap_content"
+        android:scrollbarSize="4dp" />
 
     <EditText
         android:id="@+id/editTextCode"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="98dp"
-        android:layout_marginTop="171dp"
-        android:layout_marginEnd="103dp"
-        android:layout_marginBottom="128dp"
+        android:layout_margin="20dp"
         android:ems="10"
-        android:inputType="number"
-        app:layout_constraintBottom_toTopOf="@+id/submitCodeBtn"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:inputType="number" />
 
     <Button
         android:id="@+id/submitCodeBtn"
         android:layout_width="wrap_content"
+        android:layout_marginTop="20dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="162dp"
-        android:layout_marginTop="50dp"
-        android:layout_marginEnd="162dp"
-        android:layout_marginBottom="339dp"
-        android:text="@string/submit_btn"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextCode" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:text="@string/submit_btn" />
+</LinearLayout>
