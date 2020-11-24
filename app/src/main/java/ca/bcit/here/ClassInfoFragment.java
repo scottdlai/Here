@@ -3,20 +3,16 @@ package ca.bcit.here;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -33,8 +29,8 @@ public class ClassInfoFragment extends Fragment {
 
     View view;
 
-    TextView food_text;
-    TextView food_category;
+    TextView courseName_text;
+    TextView courseTime_text;
 
 
     public static ClassInfoFragment newInstance(String id) {
@@ -66,8 +62,8 @@ public class ClassInfoFragment extends Fragment {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_class_info, container, false);
 
-        food_text = view.findViewById(R.id.courseName);
-        food_category = view.findViewById(R.id.courseTime);
+        courseName_text = view.findViewById(R.id.courseName);
+        courseTime_text = view.findViewById(R.id.courseTime);
 
         readBundle(getArguments());
         Log.e(TAG, classId);
@@ -91,8 +87,8 @@ public class ClassInfoFragment extends Fragment {
                         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                         time = sdf.format(document.getTimestamp("StartDate").toDate());
 
-                        food_text.setText(name);
-                        food_category.setText(time);
+                        courseName_text.setText(name);
+                        courseTime_text.setText(time);
                     } else {
                         Log.d(TAG, "No such document");
                     }
