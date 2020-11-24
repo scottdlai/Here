@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
 
@@ -74,7 +73,7 @@ public class addClassAdapter extends RecyclerView.Adapter<addClassAdapter.ViewHo
         return new addClassAdapter.ViewHolder(cv);
 
     }
-    private CaptionedImagesAdapter.Listener listener;
+    private ClassInfoAdapter.Listener listener;
 
     interface Listener {
 
@@ -83,7 +82,7 @@ public class addClassAdapter extends RecyclerView.Adapter<addClassAdapter.ViewHo
     }
 
 
-    public void setListener(CaptionedImagesAdapter.Listener listener) {
+    public void setListener(ClassInfoAdapter.Listener listener) {
 
         this.listener = listener;
 

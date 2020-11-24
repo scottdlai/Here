@@ -1,20 +1,17 @@
 package ca.bcit.here;
 
-import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.cardview.widget.CardView;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import static android.content.ContentValues.TAG;
 
-class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImagesAdapter.ViewHolder>
+class ClassInfoAdapter extends RecyclerView.Adapter<ClassInfoAdapter.ViewHolder>
 
 {
     private String[] names;
@@ -35,7 +32,7 @@ class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImagesAdapter
     }
 
 
-    public CaptionedImagesAdapter(String[] names, String[] times, String[] ids) {
+    public ClassInfoAdapter(String[] names, String[] times, String[] ids) {
 
         this.names = names;
 
@@ -57,7 +54,7 @@ class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImagesAdapter
 
     @Override
 
-    public CaptionedImagesAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ClassInfoAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         CardView cv = (CardView) LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.card_class, parent, false);
@@ -69,7 +66,7 @@ class CaptionedImagesAdapter extends RecyclerView.Adapter<CaptionedImagesAdapter
 
     interface Listener {
 
-        void onClick(String foodName);
+        void onClick(String className);
 
     }
 
