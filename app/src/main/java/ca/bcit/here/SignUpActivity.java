@@ -14,24 +14,34 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class SignUpActivity extends AppCompatActivity {
 
+    private static final String USERS_COLLECTION = "users";
+
+    private FirebaseFirestore db;
+
     private FirebaseAuth mAuth;
 
-    EditText nameField;
+    private EditText nameField;
 
-    EditText emailField;
+    private EditText emailField;
 
-    EditText passwordField;
+    private EditText passwordField;
 
-    Button signUpBtn;
+    private Button signUpBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
         mAuth = FirebaseAuth.getInstance();
+
+        db = FirebaseFirestore.getInstance();
 
         nameField = findViewById(R.id.nameField);
 
@@ -50,7 +60,7 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     private void signUp() {
-        String name = nameField.getText().toString().trim();
+        final String name = nameField.getText().toString().trim();
 
         String email = emailField.getText().toString().trim();
 
@@ -62,6 +72,15 @@ public class SignUpActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
                     startActivity(new Intent(SignUpActivity.this, MainActivity.class));
+
+                    // Write to `users` collection
+                    // Get signed up userid
+                    Map<String, String> data = new HashMap<>();
+                    String userID = task.getResult().getUser().getUid();
+                    data.put("username", name);
+                    db.collection(USERS_COLLECTION)
+                        .document(userID).set(data);
+
                 } else {
                     Toast.makeText(SignUpActivity.this, "Authentication failed.",
                             Toast.LENGTH_SHORT).show();
