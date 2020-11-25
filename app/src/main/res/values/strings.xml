@@ -22,7 +22,27 @@
 
     <string name="CodeGenText">Start your class Attendance.</string>
     <string name="CodeGenBtnText">Start</string>
-
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome !"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+    <!--
+    This string is used for square devices and overridden by hello_world in
+    values-round/strings.xml for round devices.
+    -->
+    <string name="hello_world">Hello Square World!</string>
+    <string name="email_field_hint">Email</string>
+    <string name="password_field_hint">Password</string>
+    <string name="sign_in_heading">Sign In</string>
+    <string name="sign_in_btn_txt">Sign In</string>
+    <string name="sign_up_btn_txt">Sign Up</string>
+    <string name="sign_up_heading">Sign up</string>
+    <string name="name_field_hint">Your name</string>
     <string name="addClassName">Class Name</string>
     <string name="btnSeeSession">View Sessions</string>
     <string name="btnSeeStudent">View Students</string>
