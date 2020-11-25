@@ -16,16 +16,24 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
+/**
+ * Activity for signing in the users.
+ */
 public class LoginActivity extends AppCompatActivity {
 
+    /** Firebase authentication instance. */
     private FirebaseAuth mAuth;
 
+    /** Edit text to enter the email. */
     private EditText emailField;
 
+    /** Edit text to enter the password. */
     private EditText passwordField;
 
+    /** Sign in button. */
     private Button signInBtn;
 
+    /** Sign up button. */
     private Button signUpBtn;
 
     @Override
@@ -44,7 +52,7 @@ public class LoginActivity extends AppCompatActivity {
                 String email = emailField.getText().toString().trim();
 
                 if (email.isEmpty()) {
-                    emailField.setError("Can't have empty username");
+                    emailField.setError("Can't have empty email");
                     return;
                 }
 
