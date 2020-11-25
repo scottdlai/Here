@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         String userKey = "Rj822fFLTjyyOYT4dij0";
+
         db = FirebaseFirestore.getInstance();
         classListRef = db.collection("users")
                 .document(userKey)
@@ -93,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
                                         Log.d(TAG, "Cached get failed: ", task.getException());
                                     }
 
-                                    transaction.replace(R.id.frameLayout,FragmentClassListStudent.newInstance(classNames.toArray(new String[classNames.size()]),classTimes.toArray(new String[classNames.size()]),classIds.toArray(new String[classNames.size()]))).commitNowAllowingStateLoss();
+                                    transaction.replace(R.id.frameLayout, FragmentClassListStudent.newInstance(classNames.toArray(new String[classNames.size()]), classTimes.toArray(new String[classNames.size()]), classIds.toArray(new String[classNames.size()]))).commitNowAllowingStateLoss();
                                 }
                             });
                     break;
