@@ -82,7 +82,7 @@ public class FragmentClassListStudent extends Fragment {
 
                 Bundle bundle = new Bundle();
 
-                Log.e(TAG, classId + "THIS IS CLASS ID");
+                Log.e(TAG, classId + "THIS IS CLASS ID, in FragmentClassListStudent OnCreateView");
 
                 bundle.putString("id", classId);
 
@@ -203,9 +203,9 @@ public class FragmentClassListStudent extends Fragment {
         db = FirebaseFirestore.getInstance();
 
         Map<String,Object> course = new HashMap<>();
-        course.put("Name",className);
-        course.put("StartDate",new Timestamp(date));
-        course.put("Teacher","The boss");
+        course.put("Name", className);
+        course.put("StartDate", new Timestamp(date));
+        course.put("Teacher", "The boss");
         db.collection("Courses").document().set(course)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override

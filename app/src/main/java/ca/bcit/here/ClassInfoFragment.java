@@ -24,12 +24,15 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import static android.content.ContentValues.TAG;
 
 public class ClassInfoFragment extends Fragment implements View.OnClickListener {
     FirebaseFirestore db;
     DocumentReference classRef;
+    DocumentReference studentListRef;
     CollectionReference sessionListRef;
 
     private String classId;
@@ -39,6 +42,7 @@ public class ClassInfoFragment extends Fragment implements View.OnClickListener 
     TextView courseName_text;
     TextView courseTime_text;
     Button btnSession;
+    Button btnStudent;
 
 
     public static ClassInfoFragment newInstance(String id) {
@@ -74,7 +78,10 @@ public class ClassInfoFragment extends Fragment implements View.OnClickListener 
         courseTime_text = view.findViewById(R.id.courseTime);
 
         btnSession = view.findViewById(R.id.btnSeeSession);
+        btnStudent = view.findViewById(R.id.btnSeeStudent);
+
         btnSession.setOnClickListener(this);
+        btnStudent.setOnClickListener(this);
 
         readBundle(getArguments());
         Log.e(TAG, classId);
@@ -117,46 +124,91 @@ public class ClassInfoFragment extends Fragment implements View.OnClickListener 
 
     @Override
     public void onClick(View v) {
-
         final FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
 
         // database
         db = FirebaseFirestore.getInstance();
-        sessionListRef = db.collection("Courses").document(classId).collection("Session");
 
-        sessionListRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                ArrayList<String> sessionDate = new ArrayList<>();
-                ArrayList<String> sessionTimeStart = new ArrayList<>();
-                ArrayList<String> sessionTimeEnd = new ArrayList<>();
-                ArrayList<String> sessionRatio = new ArrayList<>();
+        switch (v.getId()) {
 
-                if (task.isSuccessful()) {
-                    for(QueryDocumentSnapshot document : task.getResult()){
+            case R.id.btnSeeSession:
+                sessionListRef = db.collection("Courses").document(classId).collection("Session");
 
-                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                        sessionDate.add(sdf.format(document.getTimestamp("Date").toDate()));
+                sessionListRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        ArrayList<String> sessionDate = new ArrayList<>();
+                        ArrayList<String> sessionTimeStart = new ArrayList<>();
+                        ArrayList<String> sessionTimeEnd = new ArrayList<>();
+                        ArrayList<String> sessionRatio = new ArrayList<>();
 
-                        sdf = new SimpleDateFormat("HH:mm");
-                        sessionTimeStart.add(sdf.format(document.getTimestamp("Date").toDate()));
+                        if (task.isSuccessful()) {
+                            for(QueryDocumentSnapshot document : task.getResult()){
 
-                        sessionTimeEnd.add((String) document.getData().get("TimeEnd"));
-                        sessionRatio.add(String.valueOf(document.getData().get("ratioPresent")));
+                                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                                sessionDate.add(sdf.format(document.getTimestamp("Date").toDate()));
+
+                                sdf = new SimpleDateFormat("HH:mm");
+                                sessionTimeStart.add(sdf.format(document.getTimestamp("Date").toDate()));
+
+                                sessionTimeEnd.add((String) document.getData().get("TimeEnd"));
+                                sessionRatio.add(String.valueOf(document.getData().get("ratioPresent")));
+
+                            }
+                            Log.e(TAG, sessionDate.toString());
+                            Log.e(TAG, sessionTimeStart.toString());
+                            Log.e(TAG, sessionTimeEnd.toString());
+                            Log.e(TAG, sessionRatio.toString());
+                        } else {
+                            Log.d(TAG, "Cached get failed: ", task.getException());
+                        }
+
+                        transaction.replace(R.id.frameLayout, SessionFragment.newInstance(sessionDate.toArray(new String[sessionDate.size()]), sessionTimeStart.toArray(new String[sessionTimeStart.size()]), sessionTimeEnd.toArray(new String[sessionTimeEnd.size()]), sessionRatio.toArray(new String[sessionRatio.size()]))).commitNowAllowingStateLoss();
 
                     }
-                    Log.e(TAG, sessionDate.toString());
-                    Log.e(TAG, sessionTimeStart.toString());
-                    Log.e(TAG, sessionTimeEnd.toString());
-                    Log.e(TAG, sessionRatio.toString());
-                } else {
-                    Log.d(TAG, "Cached get failed: ", task.getException());
-                }
+                });
+                break;
 
-                transaction.replace(R.id.frameLayout, SessionFragment.newInstance(sessionDate.toArray(new String[sessionDate.size()]), sessionTimeStart.toArray(new String[sessionTimeStart.size()]), sessionTimeEnd.toArray(new String[sessionTimeEnd.size()]), sessionRatio.toArray(new String[sessionRatio.size()]))).commitNowAllowingStateLoss();
+            case R.id.btnSeeStudent:
+                studentListRef = db.collection("Courses").document(classId);
+                studentListRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        ArrayList<String> names = new ArrayList<>();
+                        Map<String, String> students;
 
-            }
-        });
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+
+                            if (document != null && document.exists()) {
+
+                                students = (Map) document.getData().get("Students");
+
+                                for (String name : students.values()) {
+                                    names.add(name);
+                                }
+
+                                Log.e(TAG, students.toString() + "Map Students");
+                                Log.e(TAG, names.toString() + "ArrayList Students");
+
+                            } else {
+                                Log.d("LOGGER", "No such document");
+                            }
+                        } else {
+                            Log.d("LOGGER", "get failed with ", task.getException());
+                        }
+
+                        transaction.replace(R.id.frameLayout, StudentListFragment.newInstance(names.toArray(new String[names.size()]))).commitNowAllowingStateLoss();
+
+                    }
+                });
+
+                break;
+
+        }
+
+
+
 
     }
 }
