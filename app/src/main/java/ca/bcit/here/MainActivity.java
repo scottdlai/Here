@@ -35,11 +35,16 @@ public class MainActivity extends AppCompatActivity {
     private FragmentNotification fragmentNotification = new FragmentNotification();
 
     private FirebaseAuth mAuth;
+    private FirebaseUser user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        String userKey = "Rj822fFLTjyyOYT4dij0";
 
+        mAuth = FirebaseAuth.getInstance();
+        user = mAuth.getCurrentUser();
+        String userKey = user.getUid();
+
+        user = mAuth.getCurrentUser();
         db = FirebaseFirestore.getInstance();
         classListRef = db.collection("users")
                 .document(userKey)

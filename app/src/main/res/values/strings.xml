@@ -54,6 +54,7 @@
     <string name="classList">CLASS LIST</string>
     <string name="sessionList">SESSION LIST</string>
     <string name="studentList">STUDENT LIST</string>
+    <string name="startSession">Start a new session</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

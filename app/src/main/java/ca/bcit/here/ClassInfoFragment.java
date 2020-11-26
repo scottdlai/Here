@@ -12,9 +12,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -24,7 +26,9 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 
 import static android.content.ContentValues.TAG;
@@ -43,6 +47,7 @@ public class ClassInfoFragment extends Fragment implements View.OnClickListener 
     TextView courseTime_text;
     Button btnSession;
     Button btnStudent;
+    Button btnNewSession;
 
 
     public static ClassInfoFragment newInstance(String id) {
@@ -79,9 +84,16 @@ public class ClassInfoFragment extends Fragment implements View.OnClickListener 
 
         btnSession = view.findViewById(R.id.btnSeeSession);
         btnStudent = view.findViewById(R.id.btnSeeStudent);
+        btnNewSession = view.findViewById(R.id.newSessionBtn);
 
         btnSession.setOnClickListener(this);
         btnStudent.setOnClickListener(this);
+        btnNewSession.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startSession();
+            }
+        });
 
         readBundle(getArguments());
         Log.e(TAG, classId);
@@ -117,9 +129,21 @@ public class ClassInfoFragment extends Fragment implements View.OnClickListener 
 
         });
 
-
-
         return view;
+    }
+    public void startSession(){
+
+//        Put a new session at this time into the database.
+        Map<String,Object> data = new HashMap<>();
+        data.put("Date",new Timestamp(Calendar.getInstance().getTime()));
+        data.put("Late",new LinkedList<String>());
+        data.put("OnTime",new LinkedList<String>());
+        CollectionReference cr = db.collection("Courses").document(classId).collection("Session");
+        cr.add(data);
+        Toast.makeText(getActivity(), "Session Created",
+                Toast.LENGTH_SHORT).show();
+        final FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.replace(R.id.frameLayout, CodeGenerator.newInstance(classId) ).commitNowAllowingStateLoss();
     }
 
     @Override

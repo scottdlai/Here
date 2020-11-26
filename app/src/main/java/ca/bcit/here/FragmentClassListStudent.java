@@ -24,6 +24,8 @@ import android.widget.EditText;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.Timestamp;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Calendar;
@@ -37,6 +39,8 @@ public class FragmentClassListStudent extends Fragment {
 
     FirebaseFirestore db;
     private FragmentManager fragmentManager;
+    private FirebaseAuth mAuth;
+    private FirebaseUser user;
     private String[] classNames;
     private String[] classTimes;
     private String[] classIds;
@@ -68,6 +72,7 @@ public class FragmentClassListStudent extends Fragment {
         Button addBtn = view.findViewById(R.id.addBtn);
         Button joinBtn = view.findViewById(R.id.joinBtn);
         fragmentManager = getFragmentManager();
+
 
         readBundle(getArguments());
         ClassInfoAdapter adapter = new ClassInfoAdapter(classNames, classTimes, classIds);

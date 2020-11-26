@@ -29,7 +29,24 @@ public class CodeGenerator extends Fragment {
     Button generateBtn;
     TextView codeView;
     TextView description;
+    String courseKey;
 
+    public static CodeGenerator newInstance(String key) {
+        Bundle bundle = new Bundle();
+
+        bundle.putString("key",key);
+
+        CodeGenerator fragment = new CodeGenerator();
+        fragment.setArguments(bundle);
+
+        return fragment;
+    }
+
+    private void readBundle (Bundle bundle) {
+        if (bundle != null) {
+            courseKey = bundle.getString("key");
+        }
+    }
 
     public CodeGenerator() {
         // Required empty public constructor
@@ -45,37 +62,23 @@ public class CodeGenerator extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        readBundle(getArguments());
         View view = inflater.inflate(R.layout.fragment_code_generator, container, false);
         generateBtn = view.findViewById(R.id.CodeGenBtn);
         codeView = view.findViewById(R.id.codeView);
         description = view.findViewById(R.id.GenDesc);
         db = FirebaseFirestore.getInstance();
-        generateBtn.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                generateCodes();
-            }
-        });
+        generateCodes();
+
         return view;
 
     }
 
     private void generateCodes(){
-//        long startTime = System.currentTimeMillis();
-//        long elapsedTime = System.currentTimeMillis() - startTime;
-//        long elapsedSeconds = elapsedTime / 1000;
-//        long secondsDisplay = elapsedSeconds % 60;
-//        long elapsedMinutes = elapsedSeconds / 60;
-
-
-
-        String courseKey = "2SyBpNctfI2X6GZeAIYC";
-        String SessionKey = "Qi2hLg3ISvoF9ePgtBsL";
 
         DocumentReference SessionRef = db.collection("Courses")
-                .document(courseKey)
-                .collection("Session")
-                .document(SessionKey);
+                .document(courseKey);
+
 
         Random rand = new Random();
         String code ="";
