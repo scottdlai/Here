@@ -27,6 +27,9 @@ import java.util.Map;
 
 import static android.content.ContentValues.TAG;
 
+/**
+ * An adapter that is for setting up the recycler view for the searching for class fragment
+ */
 public class addClassAdapter extends RecyclerView.Adapter<addClassAdapter.ViewHolder>
 
 {
@@ -102,9 +105,11 @@ public class addClassAdapter extends RecyclerView.Adapter<addClassAdapter.ViewHo
     }
 
     @Override
-
-    public void onBindViewHolder(addClassAdapter.ViewHolder holder, final int position) {
-
+    /**
+     * Sets the values of the cards in the view and adds on click features to them that do the logic for adding someone to a class.
+     */
+    public void onBindViewHolder(final addClassAdapter.ViewHolder holder, final int position) {
+        //Sets the data.
         final CardView cardView = holder.cardView;
 
         TextView textView = cardView.findViewById(R.id.className);
@@ -123,9 +128,7 @@ public class addClassAdapter extends RecyclerView.Adapter<addClassAdapter.ViewHo
             @Override
 
             public void onClick(View view) {
-
-
-
+                    //Sets the values for the course in the users file.
                  userId = user.getUid();
 
                     db = FirebaseFirestore.getInstance();
@@ -149,24 +152,27 @@ public class addClassAdapter extends RecyclerView.Adapter<addClassAdapter.ViewHo
                             });
 
 
-
+                    //Gets the user document and finds their name too use in adding them to the class list.
                     db.collection("users").document(userId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                             if (task.isSuccessful()) {
                                 DocumentSnapshot document = task.getResult();
                                 if (document.exists()) {
+                                    //Adds the data to a document model.
                                     username = document.getString("username");
                                     Map<String,Object> data = new HashMap<>();
                                     Map<String,String> entry =new HashMap<>();
                                     entry.put(userId,username);
                                     data.put("Students",entry);
                                     Log.e(TAG, data.toString());
+                                    //Sets the data inside the database to contain the students name and Uid.
                                     db.collection("Courses").document(ids[position]).set(data, SetOptions.merge())
                                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                 @Override
                                                 public void onSuccess(Void aVoid) {
-
+                                                    Toast.makeText(holder.itemView.getContext(), "Class joined",
+                                                            Toast.LENGTH_SHORT).show();
                                                     Log.d(TAG, "DocumentSnapshot successfully written!");
                                                 }
                                             })
@@ -176,7 +182,6 @@ public class addClassAdapter extends RecyclerView.Adapter<addClassAdapter.ViewHo
                                                     Log.w(TAG, "Error writing document", e);
                                                 }
                                             });
-
 
                                 } else {
                                     Log.d(TAG, "No such document");

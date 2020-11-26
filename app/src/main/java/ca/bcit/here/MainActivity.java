@@ -81,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
             switch(menuItem.getItemId())
             {
                 case R.id.menu_bottom_1:
+                    //Get the data from the database that will be used in the fragment.
                     classListRef.get()
                             .addOnCompleteListener( new OnCompleteListener<QuerySnapshot>() {
                                 @Override
@@ -98,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
                                     } else {
                                         Log.d(TAG, "Cached get failed: ", task.getException());
                                     }
-
+                                    //Start the fragment
                                     transaction.replace(R.id.frameLayout, FragmentClassListStudent.newInstance(classNames.toArray(new String[classNames.size()]), classTimes.toArray(new String[classNames.size()]), classIds.toArray(new String[classNames.size()]))).commitNowAllowingStateLoss();
                                 }
                             });

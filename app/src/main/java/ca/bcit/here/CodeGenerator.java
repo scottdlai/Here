@@ -23,6 +23,9 @@ import java.util.Random;
 
 import static android.content.ContentValues.TAG;
 
+/**
+ * Generates a code too be used to take attendance and displays it.
+ */
 public class CodeGenerator extends Fragment {
 
     FirebaseFirestore db;
@@ -64,7 +67,6 @@ public class CodeGenerator extends Fragment {
         // Inflate the layout for this fragment
         readBundle(getArguments());
         View view = inflater.inflate(R.layout.fragment_code_generator, container, false);
-        generateBtn = view.findViewById(R.id.CodeGenBtn);
         codeView = view.findViewById(R.id.codeView);
         description = view.findViewById(R.id.GenDesc);
         db = FirebaseFirestore.getInstance();
@@ -74,19 +76,22 @@ public class CodeGenerator extends Fragment {
 
     }
 
+    /**
+     * Generates the random code and writes it too the database.
+     */
     private void generateCodes(){
 
         DocumentReference SessionRef = db.collection("Courses")
                 .document(courseKey);
 
-
+        //Generates the random code
         Random rand = new Random();
         String code ="";
         int codeLength = 6;
         for(int i = 0; i <codeLength; i++){
             code += rand.nextInt(10);
         }
-
+        //adds the code to the classes document in the database.
         SessionRef.update("Code",code)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -101,7 +106,7 @@ public class CodeGenerator extends Fragment {
                     }
                 });
         codeView.setText(code);
-        generateBtn.setVisibility(View.GONE);
-        description.setVisibility(View.GONE);
+
+
     }
 }

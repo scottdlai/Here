@@ -131,6 +131,11 @@ public class ClassInfoFragment extends Fragment implements View.OnClickListener 
 
         return view;
     }
+
+    /**
+     * Called by the start Session button and adds a new session to the database
+     * and sends the user to the code generator fragment to get a code for the session.
+     */
     public void startSession(){
 
 //        Put a new session at this time into the database.
@@ -138,10 +143,12 @@ public class ClassInfoFragment extends Fragment implements View.OnClickListener 
         data.put("Date",new Timestamp(Calendar.getInstance().getTime()));
         data.put("Late",new LinkedList<String>());
         data.put("OnTime",new LinkedList<String>());
+        //Send to database.
         CollectionReference cr = db.collection("Courses").document(classId).collection("Session");
         cr.add(data);
         Toast.makeText(getActivity(), "Session Created",
                 Toast.LENGTH_SHORT).show();
+        //Send to next fragment.
         final FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.replace(R.id.frameLayout, CodeGenerator.newInstance(classId) ).commitNowAllowingStateLoss();
     }

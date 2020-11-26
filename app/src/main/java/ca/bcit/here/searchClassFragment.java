@@ -27,9 +27,7 @@ import java.util.ArrayList;
 import static android.content.ContentValues.TAG;
 
 /**
- * A simple {@link Fragment} subclass.
- * Use the {@link searchClassFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * A fragment that will search for classes of a specific name and display them to the user.
  */
 public class searchClassFragment extends Fragment {
 
@@ -71,6 +69,7 @@ public class searchClassFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_search_class, container, false);
         classListRecycler = view.findViewById(R.id.classListRecycler);
 
+        //Get all courses with the input name.
         Query query = db.collection("Courses").whereEqualTo("Name",className);
         query.get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -98,6 +97,7 @@ public class searchClassFragment extends Fragment {
                                 classTeacher.toArray(new String[classTeacher.size()]),
                                 classTimes.toArray(new String[classTimes.size()]),
                                 classIds.toArray(new String[classIds.size()]));
+                        //Set the adapter for the view to contain the data from the database.
                         classListRecycler.setAdapter(adapter);
                     }
 

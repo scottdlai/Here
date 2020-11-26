@@ -43,6 +43,9 @@ import java.util.Map;
 
 import static android.content.ContentValues.TAG;
 
+/**
+ * A fragment to enter a code for a class to be taken as attending.
+ */
 public class FragmentEnterCode extends Fragment {
     FirebaseFirestore db;
     Button attendBtn;
@@ -66,6 +69,7 @@ public class FragmentEnterCode extends Fragment {
         spinnerArrayNames.clear();
         spinnerArrayIds.clear();
 
+        //Finds a list of the classes that the user has and adds them to the list of classes in the spinner.
         db = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
@@ -99,6 +103,9 @@ public class FragmentEnterCode extends Fragment {
         return view;
     }
 
+    /**
+     * Does all the work for the code logic
+     */
     private void attend(){
         final String userCode = codeText.getText().toString();
         //Get this key from the Course reference in the student that was selected
@@ -111,6 +118,7 @@ public class FragmentEnterCode extends Fragment {
                                             .document(courseKey)
                                             .collection("Session").whereGreaterThan("Date",hourBefore);
 
+        //Grabs the document from the database and checks if the code was the.
         DocumentReference docRef  = db.collection("Courses").document(courseKey);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -120,6 +128,7 @@ public class FragmentEnterCode extends Fragment {
 
                 if (userCode.equals(document.getData().get("Code"))){
 
+                    //if it was it check for all the sessions that are still available.
                     Log.d(TAG,"Matches");
                     //Popup a success toast or something.
                     //Update the session data adding the student.
@@ -145,6 +154,7 @@ public class FragmentEnterCode extends Fragment {
 //                                                    Check if the user is already in the list.
                                                     List<String> onTimeList = (List<String>) document.get("OnTime");
                                                     List<String> lateList = (List<String>) document.get("Late");
+                                                    //Checks if the user has already join this session before.
                                                     if (!onTimeList.contains(username) && !lateList.contains(username)) {
 
     //                                                  Check if the time is within the last 10 mins.
@@ -157,6 +167,8 @@ public class FragmentEnterCode extends Fragment {
                                                         Map<String, Object> data = new HashMap<>();
                                                         List<String> name = new LinkedList<>();
                                                         name.add(username);
+                                                        //Checks if the sessions is less than ten minutes old and will add the user to on time is it is
+                                                        //Else it will be added to the Late list.
                                                         if (document.getTimestamp("Date").compareTo(tenBefore) > 0) {
                                                             data.put("OnTime", name);
                                                             Toast.makeText(getActivity(), "Attendance taken",
@@ -172,6 +184,7 @@ public class FragmentEnterCode extends Fragment {
 
                                                     }
                                                     else {
+                                                        //Display some messages to the user depending on the status of the session and code.
                                                         Toast.makeText(getActivity(), "You have already attended this session.",
                                                                 Toast.LENGTH_SHORT).show();
                                                     }
@@ -194,8 +207,6 @@ public class FragmentEnterCode extends Fragment {
                     });
 
 
-
-
                 }
                 else{
                     Toast.makeText(getActivity(), "Incorrect Code",
@@ -204,21 +215,5 @@ public class FragmentEnterCode extends Fragment {
             }
         });
 
-
-
-
-
-
-
-
-
-
     }
-
-
-
-
-
-
-
 }
