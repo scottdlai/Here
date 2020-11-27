@@ -12,9 +12,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -24,13 +28,17 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 
 import static android.content.ContentValues.TAG;
 
 public class ClassInfoFragment extends Fragment implements View.OnClickListener {
     FirebaseFirestore db;
+    FirebaseAuth mAuth;
+    String userId;
     DocumentReference classRef;
     DocumentReference studentListRef;
     CollectionReference sessionListRef;
@@ -43,6 +51,8 @@ public class ClassInfoFragment extends Fragment implements View.OnClickListener 
     TextView courseTime_text;
     Button btnSession;
     Button btnStudent;
+    Button btnNewSession;
+
 
 
     public static ClassInfoFragment newInstance(String id) {
@@ -73,15 +83,24 @@ public class ClassInfoFragment extends Fragment implements View.OnClickListener 
                              @NonNull Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_class_info, container, false);
+        mAuth = FirebaseAuth.getInstance();
+        userId = mAuth.getUid();
 
         courseName_text = view.findViewById(R.id.courseName);
         courseTime_text = view.findViewById(R.id.courseTime);
 
         btnSession = view.findViewById(R.id.btnSeeSession);
         btnStudent = view.findViewById(R.id.btnSeeStudent);
+        btnNewSession = view.findViewById(R.id.newSessionBtn);
 
         btnSession.setOnClickListener(this);
         btnStudent.setOnClickListener(this);
+        btnNewSession.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startSession();
+            }
+        });
 
         readBundle(getArguments());
         Log.e(TAG, classId);
@@ -117,9 +136,61 @@ public class ClassInfoFragment extends Fragment implements View.OnClickListener 
 
         });
 
-
-
         return view;
+    }
+
+    /**
+     * Called by the start Session button and adds a new session to the database
+     * and sends the user to the code generator fragment to get a code for the session.
+     */
+    public void startSession(){
+
+        //Check if the username of the user is the same as the teacherName
+        db.collection("users").document(userId).get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                           @Override
+                                           public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                               if (task.isSuccessful()) {
+                                                   DocumentSnapshot document = task.getResult();
+
+                                                   final String username = document.getString("username");
+
+
+                                                   db.collection("Courses").document(classId)
+                                                           .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                                       @Override
+                                                       public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                           DocumentSnapshot classDocument = task.getResult();
+                                                           String teacherUsername = classDocument.getString("Teacher");
+
+                                                           //Is the teacher and user the same?.
+                                                            if(teacherUsername.equals(username)){
+
+                                                                //Put a new session at this time into the database.
+                                                                Map<String,Object> data = new HashMap<>();
+                                                                data.put("Date",new Timestamp(Calendar.getInstance().getTime()));
+                                                                data.put("Late",new LinkedList<String>());
+                                                                data.put("OnTime",new LinkedList<String>());
+                                                                //Send to database.
+                                                                CollectionReference cr = db.collection("Courses").document(classId).collection("Session");
+                                                                cr.add(data);
+                                                                Toast.makeText(getActivity(), "Session Created",
+                                                                        Toast.LENGTH_SHORT).show();
+                                                                //Send to next fragment.
+                                                                final FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                                                                transaction.replace(R.id.frameLayout, CodeGenerator.newInstance(classId) ).commitNowAllowingStateLoss();
+                                                            }
+                                                            else{
+                                                                //Toast that you dont have permission.
+                                                                Toast.makeText(getActivity(), "You don't have permission to start a session in this class.",
+                                                                        Toast.LENGTH_SHORT).show();
+                                                            }
+
+                                                       }
+                                                   });
+                                               }
+                                           }
+                                       });
     }
 
     @Override
