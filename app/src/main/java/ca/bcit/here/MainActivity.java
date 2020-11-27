@@ -32,7 +32,6 @@ public class MainActivity extends AppCompatActivity {
 
     private FragmentClassListStudent fragmentClassListStudent = new FragmentClassListStudent();
     private FragmentEnterCode fragmentEntercode = new FragmentEnterCode();
-    private FragmentNotification fragmentNotification = new FragmentNotification();
 
     private FirebaseAuth mAuth;
     private FirebaseUser user;
@@ -106,9 +105,6 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case R.id.menu_bottom_2:
                     transaction.replace(R.id.frameLayout, fragmentEntercode).commitAllowingStateLoss();
-                    break;
-                case R.id.menu_bottom_3:
-                    transaction.replace(R.id.frameLayout, fragmentNotification).commitAllowingStateLoss();
                     break;
             }
             return true;

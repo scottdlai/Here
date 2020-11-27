@@ -35,18 +35,31 @@ import java.util.Map;
 
 import static android.content.ContentValues.TAG;
 
+/**
+ * ClassInfo Fragment Class
+ * to display class info page
+ * contains an adapter
+ */
 public class ClassInfoFragment extends Fragment implements View.OnClickListener {
+    /** FIREBASE DATA */
     FirebaseFirestore db;
-    FirebaseAuth mAuth;
-    String userId;
+
+    /** Documents and Collections References*/
     DocumentReference classRef;
     DocumentReference studentListRef;
     CollectionReference sessionListRef;
 
+    /** FIREBASE AUTHENTICATION */
+    FirebaseAuth mAuth;
+
+    /** User's primary key */
+    String userId;
+
+    /** Class's primary key */
     private String classId;
 
+    /** frame layouts */
     View view;
-
     TextView courseName_text;
     TextView courseTime_text;
     Button btnSession;
@@ -54,10 +67,16 @@ public class ClassInfoFragment extends Fragment implements View.OnClickListener 
     Button btnNewSession;
 
 
+    private int totalNum;
 
+    /**
+     * to Create a new instance of ClassInfo Fragment with corresponding data from a user
+     * @param id, class's primary key, id
+     * @return a new fragment with a corresponding fragment with a class's id
+     */
     public static ClassInfoFragment newInstance(String id) {
+        // instantiating a new bundle to store / pass down some data
         Bundle bundle = new Bundle();
-
         bundle.putString("id",id);
 
         ClassInfoFragment fragment = new ClassInfoFragment();
@@ -66,18 +85,32 @@ public class ClassInfoFragment extends Fragment implements View.OnClickListener 
         return fragment;
     }
 
+    /**
+     * to read a bundle information and sets classId attribute with passed down data
+     * @param bundle
+     */
     private void readBundle (Bundle bundle) {
         if (bundle != null) {
             classId = bundle.getString("id");
         }
     }
 
+    /**
+     * to Create this Fragment
+     * @param savedInstanceState
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
-
+    /**
+     * to Create this Fragment's View / Frame Layouts
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return this view with newly set texts
+     */
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup container,
                              @NonNull Bundle savedInstanceState) {
@@ -86,6 +119,7 @@ public class ClassInfoFragment extends Fragment implements View.OnClickListener 
         mAuth = FirebaseAuth.getInstance();
         userId = mAuth.getUid();
 
+        // setting the texts of frame layouts
         courseName_text = view.findViewById(R.id.courseName);
         courseTime_text = view.findViewById(R.id.courseTime);
 
@@ -93,6 +127,7 @@ public class ClassInfoFragment extends Fragment implements View.OnClickListener 
         btnStudent = view.findViewById(R.id.btnSeeStudent);
         btnNewSession = view.findViewById(R.id.newSessionBtn);
 
+        // to set buttons on click listeners
         btnSession.setOnClickListener(this);
         btnStudent.setOnClickListener(this);
         btnNewSession.setOnClickListener(new View.OnClickListener() {
@@ -103,12 +138,17 @@ public class ClassInfoFragment extends Fragment implements View.OnClickListener 
         });
 
         readBundle(getArguments());
+
+        // to test out to print out a classId that is passed down
         Log.e(TAG, classId);
 
+
+        // to find some data that is corresponding to the classId
         db = FirebaseFirestore.getInstance();
         classRef = db.collection("Courses")
                 .document(classId);
 
+        // FIREBASE OPERATIONS
         classRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -121,6 +161,7 @@ public class ClassInfoFragment extends Fragment implements View.OnClickListener 
 
                         name = (String) document.getString("Name");
 
+                        // to set date format
                         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                         time = sdf.format(document.getTimestamp("StartDate").toDate());
 
@@ -135,6 +176,9 @@ public class ClassInfoFragment extends Fragment implements View.OnClickListener 
             }
 
         });
+
+        // Gets a size of Student Map and sets it to 'totalNum' attribute
+        setTotalStudentNumber();
 
         return view;
     }
@@ -193,6 +237,10 @@ public class ClassInfoFragment extends Fragment implements View.OnClickListener 
                                        });
     }
 
+    /**
+     * to Set buttons on click listener
+     * @param v, this view, fragment
+     */
     @Override
     public void onClick(View v) {
         final FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
@@ -200,8 +248,13 @@ public class ClassInfoFragment extends Fragment implements View.OnClickListener 
         // database
         db = FirebaseFirestore.getInstance();
 
+        // v.getId(), gets the id of frame layout that is clicked
         switch (v.getId()) {
 
+            /* if the session button is clicked
+            * retrieve some data corresponding to classId and store them into arrays
+            * then pass them down to SessionFragment to instantiate and display a page corresponding
+            * to the class and show session information */
             case R.id.btnSeeSession:
                 sessionListRef = db.collection("Courses").document(classId).collection("Session");
 
@@ -216,6 +269,7 @@ public class ClassInfoFragment extends Fragment implements View.OnClickListener 
                         if (task.isSuccessful()) {
                             for(QueryDocumentSnapshot document : task.getResult()){
 
+                                //
                                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                                 sessionDate.add(sdf.format(document.getTimestamp("Date").toDate()));
 
@@ -223,23 +277,35 @@ public class ClassInfoFragment extends Fragment implements View.OnClickListener 
                                 sessionTimeStart.add(sdf.format(document.getTimestamp("Date").toDate()));
 
                                 sessionTimeEnd.add((String) document.getData().get("TimeEnd"));
-                                sessionRatio.add(String.valueOf(document.getData().get("ratioPresent")));
+
+                                long attendedNumber =  (long) document.getData().get("Attended");
+                                double ratio = (double) attendedNumber / totalNum;
+                                Log.e(TAG, attendedNumber + "attendedNumber");
+                                Log.e(TAG, totalNum + "totalNum");
+
+                                sessionRatio.add(String.valueOf(ratio));
 
                             }
-                            Log.e(TAG, sessionDate.toString());
-                            Log.e(TAG, sessionTimeStart.toString());
-                            Log.e(TAG, sessionTimeEnd.toString());
-                            Log.e(TAG, sessionRatio.toString());
+
+                            // to test out if data has retrieved correctly
+                            Log.e(TAG, sessionDate.toString() + "Session Date to String");
+                            Log.e(TAG, sessionTimeStart.toString() + "Session Time Start to String");
+                            Log.e(TAG, sessionTimeEnd.toString() + "Session Time End to String");
+                            Log.e(TAG, sessionRatio.toString() + "Session Ratio to String");
                         } else {
                             Log.d(TAG, "Cached get failed: ", task.getException());
                         }
 
+                        // By using Fragment Manager to transact or change the Fragment with a new
+                        // Fragment
                         transaction.replace(R.id.frameLayout, SessionFragment.newInstance(sessionDate.toArray(new String[sessionDate.size()]), sessionTimeStart.toArray(new String[sessionTimeStart.size()]), sessionTimeEnd.toArray(new String[sessionTimeEnd.size()]), sessionRatio.toArray(new String[sessionRatio.size()]))).commitNowAllowingStateLoss();
 
                     }
                 });
                 break;
 
+            // please refer to above case's comment
+            // works similar
             case R.id.btnSeeStudent:
                 studentListRef = db.collection("Courses").document(classId);
                 studentListRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -261,6 +327,7 @@ public class ClassInfoFragment extends Fragment implements View.OnClickListener 
 
                                 Log.e(TAG, students.toString() + "Map Students");
                                 Log.e(TAG, names.toString() + "ArrayList Students");
+                                Log.e(TAG, students.size() + "Size of Student Map");
 
                             } else {
                                 Log.d("LOGGER", "No such document");
@@ -273,13 +340,35 @@ public class ClassInfoFragment extends Fragment implements View.OnClickListener 
 
                     }
                 });
-
                 break;
-
         }
-
-
-
-
     }
+
+    private void setTotalStudentNumber() {
+        studentListRef = db.collection("Courses").document(classId);
+        studentListRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                ArrayList<String> names = new ArrayList<>();
+                Map<String, String> students;
+
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+
+                    if (document != null && document.exists()) {
+
+                        students = (Map) document.getData().get("Students");
+                        totalNum = students.size();
+
+                    } else {
+                        Log.d("LOGGER", "No such document");
+                    }
+                } else {
+                    Log.d("LOGGER", "get failed with ", task.getException());
+                }
+
+            }
+        });
+    }
+
 }

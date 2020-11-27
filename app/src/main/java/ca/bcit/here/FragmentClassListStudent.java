@@ -101,7 +101,7 @@ public class FragmentClassListStudent extends Fragment {
 
                 Bundle bundle = new Bundle();
 
-                Log.e(TAG, classId + "THIS IS CLASS ID, in FragmentClassListStudent OnCreateView");
+                Log.e(TAG, classId + " THIS IS CLASS ID, in FragmentClassListStudent OnCreateView");
                 //Start up the class view fragment with the data of the clicked class.
                 bundle.putString("id", classId);
 

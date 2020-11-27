@@ -9,28 +9,19 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
-
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-
-import static android.content.ContentValues.TAG;
-
+/**
+ * Session Fragment to display a class's Session Information
+ * Also contains an adapter to display data as a RecyclerView, CardView
+ */
 public class SessionFragment extends Fragment {
 
     private FragmentManager fragmentManager;
+
+    /** to store session data */
     private String[] sessionDate;
     private String[] sessionTimeStart;
     private String[] sessionTimeEnd;
@@ -77,31 +68,6 @@ public class SessionFragment extends Fragment {
 
         GridLayoutManager lm = new GridLayoutManager(view.getContext(), 1);
         sessionListRecycler.setLayoutManager(lm);
-
-//        adapter.setListener(new ClassInfoAdapter.Listener() {
-//
-//            public void onClick(String classId) {
-//
-//                Bundle bundle = new Bundle();
-//
-//                Log.e(TAG, classId + "THIS IS CLASS ID");
-//
-//                bundle.putString("id", classId);
-//
-//                ClassInfoFragment classInfoFrag = ClassInfoFragment.newInstance(classId);
-//
-//                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-//
-//                // Replace whatever is in the fragment_container view with this fragment,
-//                // and add the transaction to the back stack if needed
-//                transaction.replace(R.id.frameLayout, classInfoFrag);
-//                transaction.addToBackStack(null);
-//
-//                // Commit the transaction
-//                transaction.commit();
-//            }
-//
-//        });
 
         return view;
     }

@@ -9,8 +9,4 @@
         android:id="@+id/menu_bottom_2"
         android:icon="@drawable/ic_menu_home"
         android:title="@string/menu_bottom_2" />
-    <item
-        android:id="@+id/menu_bottom_3"
-        android:icon="@drawable/ic_menu_notification"
-        android:title="@string/menu_bottom_3" />
 </menu>
