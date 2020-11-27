@@ -1,9 +1,14 @@
 package ca.bcit.here;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.cardview.widget.CardView;
@@ -16,13 +21,42 @@ public class SessionInfoAdapter extends RecyclerView.Adapter<SessionInfoAdapter.
     private String[] sessionTimeStart;
     private String[] sessionTimeEnd;
     private String[] sessionRatio;
+    private String[] absentees;
+    private String[] lateComers;
+    private String[] onTime;
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         private CardView cardView;
 
         public ViewHolder(CardView v) {
             super(v);
             cardView = v;
+            v.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Pops up
+                    showDialog();
+                }
+            });
+        }
+
+        private void showDialog() {
+            final Dialog dialog = new Dialog(cardView.getContext());
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.setContentView(R.layout.absent_late_list);
+
+            Spinner lateSpinner = dialog.findViewById(R.id.late_spinner);
+
+            Spinner absenteeSpinner = dialog.findViewById(R.id.absentee_spinner);
+
+            ArrayAdapter<String> lateAdapter =
+                    new ArrayAdapter<>(cardView.getContext(),
+                            R.layout.absent_late_list,
+                            lateComers);
+
+            lateSpinner.setAdapter(lateAdapter);
+
+            dialog.show();
         }
     }
 
@@ -31,11 +65,21 @@ public class SessionInfoAdapter extends RecyclerView.Adapter<SessionInfoAdapter.
         return sessionDate.length;
     }
 
-    public SessionInfoAdapter(String[] sessionDate, String[] sessionTimeStart, String[] sessionTimeEnd, String[] sessionRatio) {
+    public SessionInfoAdapter(
+            String[] sessionDate,
+            String[] sessionTimeStart,
+            String[] sessionTimeEnd,
+            String[] sessionRatio,
+            String[] absentees,
+            String[] lateComers,
+            String[] onTime) {
         this.sessionDate = sessionDate;
         this.sessionTimeStart = sessionTimeStart;
         this.sessionTimeEnd = sessionTimeEnd;
         this.sessionRatio = sessionRatio;
+        this.absentees = absentees;
+        this.lateComers = lateComers;
+        this.onTime = onTime;
     }
 
     @Override
