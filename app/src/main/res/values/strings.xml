@@ -46,7 +46,7 @@
     <string name="addClassName">Class Name</string>
     <string name="btnSeeSession">View Sessions</string>
     <string name="btnSeeStudent">View Students</string>
-    <string name="btnAddClass">Add Class</string>
+    <string name="btnAddClass">Make Class</string>
     <string name="btnJoinClass">Join Class</string>
     <string name="classNameHint">Class Name</string>
     <string name="classSearchBtn">Search</string>
