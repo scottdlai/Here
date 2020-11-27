@@ -10,6 +10,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -19,6 +20,20 @@ import android.view.ViewGroup;
  */
 public class SessionFragment extends Fragment {
 
+    private static final String DATES_KEY = "dates";
+
+    private static final String TIME_START_KEY = "timeStarts";
+
+    private static final String TIME_END_KEY = "timeEnds";
+
+    private static final String RATIOS_KEY = "ratios";
+
+    private static final String ABSENTEE_KEY = "absentees";
+
+    private static final String LATE_KEY = "lates";
+
+    private static final String ON_TIME_KEY = "onTimes";
+
     private FragmentManager fragmentManager;
 
     /** to store session data */
@@ -26,19 +41,30 @@ public class SessionFragment extends Fragment {
     private String[] sessionTimeStart;
     private String[] sessionTimeEnd;
     private String[] sessionRatio;
+    private String[] sessionAbsentees;
+    private String[] sessionLates;
+    private String[] sessionOnTime;
 
     public SessionFragment() {
         // Required empty public constructor
     }
 
 
-    public static SessionFragment newInstance(String[] dates, String[] timeStarts, String[] timeEnds, String[] ratios) {
+    public static SessionFragment newInstance(String[] dates,
+                                              String[] timeStarts,
+                                              String[] timeEnds,
+                                              String[] ratios,
+                                              String[] absentees,
+                                              String[] lates,
+                                              String[] onTime) {
         Bundle bundle = new Bundle();
-        bundle.putStringArray("dates", dates);
-        bundle.putStringArray("timeStarts", timeStarts);
-        bundle.putStringArray("timeEnds", timeEnds);
-        bundle.putStringArray("ratios", ratios);
-
+        bundle.putStringArray(DATES_KEY, dates);
+        bundle.putStringArray(TIME_START_KEY, timeStarts);
+        bundle.putStringArray(TIME_END_KEY, timeEnds);
+        bundle.putStringArray(RATIOS_KEY, ratios);
+        bundle.putStringArray(ABSENTEE_KEY, absentees);
+        bundle.putStringArray(LATE_KEY, lates);
+        bundle.putStringArray(ON_TIME_KEY, onTime);
 
         SessionFragment fragment = new SessionFragment();
         fragment.setArguments(bundle);
@@ -48,10 +74,13 @@ public class SessionFragment extends Fragment {
 
     private void readBundle(Bundle bundle) {
         if (bundle != null) {
-            sessionDate = bundle.getStringArray("dates");
-            sessionTimeStart = bundle.getStringArray("timeStarts");
-            sessionTimeEnd = bundle.getStringArray("timeEnds");
-            sessionRatio = bundle.getStringArray("ratios");
+            sessionDate = bundle.getStringArray(DATES_KEY);
+            sessionTimeStart = bundle.getStringArray(TIME_START_KEY);
+            sessionTimeEnd = bundle.getStringArray(TIME_END_KEY);
+            sessionRatio = bundle.getStringArray(RATIOS_KEY);
+            sessionAbsentees = bundle.getStringArray(ABSENTEE_KEY);
+            sessionLates = bundle.getStringArray(LATE_KEY);
+            sessionOnTime = bundle.getStringArray(ON_TIME_KEY);
         }
     }
 
@@ -63,11 +92,15 @@ public class SessionFragment extends Fragment {
         fragmentManager = getFragmentManager();
 
         readBundle(getArguments());
-        SessionInfoAdapter adapter = new SessionInfoAdapter(sessionDate, sessionTimeStart, sessionTimeEnd, sessionRatio);
+        SessionInfoAdapter adapter = new SessionInfoAdapter(
+                sessionDate,
+                sessionTimeStart,
+                sessionTimeEnd, sessionRatio, sessionAbsentees, sessionLates, sessionOnTime);
         sessionListRecycler.setAdapter(adapter);
 
         GridLayoutManager lm = new GridLayoutManager(view.getContext(), 1);
         sessionListRecycler.setLayoutManager(lm);
+
 
         return view;
     }

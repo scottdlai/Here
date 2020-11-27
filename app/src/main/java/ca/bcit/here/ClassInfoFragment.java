@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import static android.content.ContentValues.TAG;
@@ -222,7 +223,9 @@ public class ClassInfoFragment extends Fragment implements View.OnClickListener 
                                                                         Toast.LENGTH_SHORT).show();
                                                                 //Send to next fragment.
                                                                 final FragmentTransaction transaction = getFragmentManager().beginTransaction();
-                                                                transaction.replace(R.id.frameLayout, CodeGenerator.newInstance(classId) ).commitNowAllowingStateLoss();
+                                                                transaction.replace(R.id.frameLayout, CodeGenerator.newInstance(classId) )
+                                                                        .addToBackStack(null)
+                                                                        .commit();
                                                             }
                                                             else{
                                                                 //Toast that you dont have permission.
@@ -265,6 +268,9 @@ public class ClassInfoFragment extends Fragment implements View.OnClickListener 
                         ArrayList<String> sessionTimeStart = new ArrayList<>();
                         ArrayList<String> sessionTimeEnd = new ArrayList<>();
                         ArrayList<String> sessionRatio = new ArrayList<>();
+                        List<String> sessionAbsentees = new ArrayList<>();
+                        List<String> sessionLates = new ArrayList<>();
+                        List<String> sessionOnTime = new ArrayList<>();
 
                         if (task.isSuccessful()) {
                             for(QueryDocumentSnapshot document : task.getResult()){
@@ -279,6 +285,26 @@ public class ClassInfoFragment extends Fragment implements View.OnClickListener 
                                 sessionTimeEnd.add((String) document.getData().get("TimeEnd"));
 
                                 long attendedNumber =  (long) document.getData().get("Attended");
+
+                                sessionAbsentees = (List<String>) document.getData().get("absentees");
+
+                                // Null Checking because some document doesn't have this field yet
+                                if (sessionAbsentees == null) {
+                                    sessionAbsentees = new ArrayList<>();
+                                }
+
+                                sessionLates = (List<String>) document.getData().get("late");
+
+                                // Null checking same reason above
+                                if (sessionLates == null) {
+                                    sessionLates = new ArrayList<>();
+                                }
+
+                                sessionOnTime = (List<String>) document.getData().get("onTime");
+
+                                if (sessionOnTime == null) {
+                                    sessionOnTime = new ArrayList<>();
+                                }
 
                                 Log.e(TAG, attendedNumber + "attendedNumber");
                                 Log.e(TAG, totalNum + "totalNum");
@@ -298,7 +324,18 @@ public class ClassInfoFragment extends Fragment implements View.OnClickListener 
 
                         // By using Fragment Manager to transact or change the Fragment with a new
                         // Fragment
-                        transaction.replace(R.id.frameLayout, SessionFragment.newInstance(sessionDate.toArray(new String[sessionDate.size()]), sessionTimeStart.toArray(new String[sessionTimeStart.size()]), sessionTimeEnd.toArray(new String[sessionTimeEnd.size()]), sessionRatio.toArray(new String[sessionRatio.size()]))).commitNowAllowingStateLoss();
+                        transaction.replace(R.id.frameLayout,
+                                SessionFragment.newInstance(
+                                        sessionDate.toArray(new String[sessionDate.size()]),
+                                        sessionTimeStart.toArray(new String[sessionTimeStart.size()]),
+                                        sessionTimeEnd.toArray(new String[sessionTimeEnd.size()]),
+                                        sessionRatio.toArray(new String[sessionRatio.size()]),
+                                        sessionAbsentees.toArray(new String[sessionAbsentees.size()]),
+                                        sessionLates.toArray(new String[sessionLates.size()]),
+                                        sessionOnTime.toArray(new String[sessionOnTime.size()])))
+                                .addToBackStack(null)
+                                .commit();
+
 
                     }
                 });
@@ -336,8 +373,10 @@ public class ClassInfoFragment extends Fragment implements View.OnClickListener 
                             Log.d("LOGGER", "get failed with ", task.getException());
                         }
 
-                        transaction.replace(R.id.frameLayout, StudentListFragment.newInstance(names.toArray(new String[names.size()]))).commitNowAllowingStateLoss();
-
+                        transaction.replace(R.id.frameLayout,
+                                StudentListFragment.newInstance(names.toArray(new String[names.size()])))
+                                .addToBackStack(null)
+                                .commit();
                     }
                 });
                 break;
