@@ -279,11 +279,11 @@ public class ClassInfoFragment extends Fragment implements View.OnClickListener 
                                 sessionTimeEnd.add((String) document.getData().get("TimeEnd"));
 
                                 long attendedNumber =  (long) document.getData().get("Attended");
-                                double ratio = (double) attendedNumber / totalNum;
+
                                 Log.e(TAG, attendedNumber + "attendedNumber");
                                 Log.e(TAG, totalNum + "totalNum");
-
-                                sessionRatio.add(String.valueOf(ratio));
+                                String ratio = attendedNumber + " / " + totalNum;
+                                sessionRatio.add(ratio);
 
                             }
 
