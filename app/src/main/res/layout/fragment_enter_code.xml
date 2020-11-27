@@ -8,6 +8,24 @@
     android:orientation="vertical"
     tools:context=".FragmentEnterCode">
 
+    <TextView
+        android:id="@+id/heading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_gravity="center"
+        android:text="@string/attendance_heading"
+        android:textAllCaps="true"
+        android:textSize="48sp"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/classListLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/class_list_label"
+        android:textSize="18sp" />
+
     <Spinner
         android:id="@+id/classChoiceSpinner"
         android:layout_width="226dp"
@@ -20,7 +38,8 @@
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
         android:ems="10"
-        android:inputType="number" />
+        android:inputType="number"
+        android:hint="@string/enter_code_btn_txt" />
 
     <Button
         android:id="@+id/submitCodeBtn"
