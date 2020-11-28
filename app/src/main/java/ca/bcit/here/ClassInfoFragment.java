@@ -209,6 +209,10 @@ public class ClassInfoFragment extends Fragment implements View.OnClickListener 
                                                            Log.d("TAG", "Class ID: " + classId);
                                                            Log.d(TAG, "Class Document: " + document.getData());
                                                            String teacherUsername = classDocument.getString("Teacher");
+
+                                                           Map<String, String> studentsMap = (HashMap<String, String>) classDocument.get("Students");
+
+                                                           List<String> students = new ArrayList<>(studentsMap.values());
                                                            //Is the teacher and user the same?.
                                                             if(teacherUsername != null && teacherUsername.equals(username)){
 
@@ -217,6 +221,7 @@ public class ClassInfoFragment extends Fragment implements View.OnClickListener 
                                                                 data.put("Date",new Timestamp(Calendar.getInstance().getTime()));
                                                                 data.put("Late",new LinkedList<String>());
                                                                 data.put("OnTime",new LinkedList<String>());
+                                                                data.put("Absent", students);
                                                                 //Send to database.
                                                                 CollectionReference cr = db.collection("Courses").document(classId).collection("Session");
                                                                 cr.add(data);
