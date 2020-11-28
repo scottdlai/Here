@@ -33,14 +33,6 @@ public class SessionInfoAdapter extends RecyclerView.Adapter<SessionInfoAdapter.
         public ViewHolder(CardView v) {
             super(v);
             cardView = v;
-<<<<<<< HEAD
-            v.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    // Pops up
-                    showDialog();
-                }
-            });
         }
         
         private void showDialog() {
@@ -60,8 +52,6 @@ public class SessionInfoAdapter extends RecyclerView.Adapter<SessionInfoAdapter.
             lateSpinner.setAdapter(lateAdapter);
 
             dialog.show();
-=======
->>>>>>> 1e9023f8d698acc9f56cfedcb25888f64a48d38c
         }
     }
 
