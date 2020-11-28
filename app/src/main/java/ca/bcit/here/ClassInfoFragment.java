@@ -222,6 +222,7 @@ public class ClassInfoFragment extends Fragment implements View.OnClickListener 
                                                                 data.put("Late",new LinkedList<String>());
                                                                 data.put("OnTime",new LinkedList<String>());
                                                                 data.put("Absent", students);
+                                                                data.put("Attended", 0);
                                                                 //Send to database.
                                                                 CollectionReference cr = db.collection("Courses").document(classId).collection("Session");
                                                                 cr.add(data);

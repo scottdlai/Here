@@ -259,7 +259,7 @@ public class FragmentClassListStudent extends Fragment {
                         course.put("Name", className);
                         course.put("StartDate", new Timestamp(date));
                         course.put("Teacher", username);
-                        course.put("Students", new ArrayList<String>());
+                        course.put("Students", new HashMap<String, String>());
 
                         Map<String,Object> userCourse = new HashMap<>();
                         userCourse.put("className",className);
