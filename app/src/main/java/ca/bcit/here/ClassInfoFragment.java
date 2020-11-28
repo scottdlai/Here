@@ -196,7 +196,7 @@ public class ClassInfoFragment extends Fragment implements View.OnClickListener 
                                            @Override
                                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                                if (task.isSuccessful()) {
-                                                   DocumentSnapshot document = task.getResult();
+                                                   final DocumentSnapshot document = task.getResult();
 
                                                    final String username = document.getString("username");
 
@@ -206,16 +206,22 @@ public class ClassInfoFragment extends Fragment implements View.OnClickListener 
                                                        @Override
                                                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                                            DocumentSnapshot classDocument = task.getResult();
+                                                           Log.d("TAG", "Class ID: " + classId);
+                                                           Log.d(TAG, "Class Document: " + document.getData());
                                                            String teacherUsername = classDocument.getString("Teacher");
 
+                                                           Map<String, String> studentsMap = (HashMap<String, String>) classDocument.get("Students");
+
+                                                           List<String> students = new ArrayList<>(studentsMap.values());
                                                            //Is the teacher and user the same?.
-                                                            if(teacherUsername.equals(username)){
+                                                            if(teacherUsername != null && teacherUsername.equals(username)){
 
                                                                 //Put a new session at this time into the database.
                                                                 Map<String,Object> data = new HashMap<>();
                                                                 data.put("Date",new Timestamp(Calendar.getInstance().getTime()));
                                                                 data.put("Late",new LinkedList<String>());
                                                                 data.put("OnTime",new LinkedList<String>());
+                                                                data.put("Absent", students);
                                                                 //Send to database.
                                                                 CollectionReference cr = db.collection("Courses").document(classId).collection("Session");
                                                                 cr.add(data);
@@ -268,9 +274,9 @@ public class ClassInfoFragment extends Fragment implements View.OnClickListener 
                         ArrayList<String> sessionTimeStart = new ArrayList<>();
                         ArrayList<String> sessionTimeEnd = new ArrayList<>();
                         ArrayList<String> sessionRatio = new ArrayList<>();
-                        List<String> sessionAbsentees = new ArrayList<>();
-                        List<String> sessionLates = new ArrayList<>();
-                        List<String> sessionOnTime = new ArrayList<>();
+                        List<String[]> sessionAbsentees = new ArrayList<>();
+                        List<String[]> sessionLates = new ArrayList<>();
+                        List<String[]> sessionOnTime = new ArrayList<>();
 
                         if (task.isSuccessful()) {
                             for(QueryDocumentSnapshot document : task.getResult()){
@@ -286,25 +292,22 @@ public class ClassInfoFragment extends Fragment implements View.OnClickListener 
 
                                 long attendedNumber =  (long) document.getData().get("Attended");
 
-                                sessionAbsentees = (List<String>) document.getData().get("absentees");
+                                List<String> absent = (List<String>) document.getData().get("Absent");
 
-                                // Null Checking because some document doesn't have this field yet
-                                if (sessionAbsentees == null) {
-                                    sessionAbsentees = new ArrayList<>();
-                                }
+                                if (absent != null)
+                                    sessionAbsentees.add(absent.toArray(new String[absent.size()]));
 
-                                sessionLates = (List<String>) document.getData().get("late");
+
+                                List<String> late = (List<String>) document.getData().get("Late");
 
                                 // Null checking same reason above
-                                if (sessionLates == null) {
-                                    sessionLates = new ArrayList<>();
-                                }
+                                if (late != null)
+                                    sessionLates.add(late.toArray(new String[late.size()]));
 
-                                sessionOnTime = (List<String>) document.getData().get("onTime");
+                                List<String> onTime = (List<String>) document.getData().get("OnTime");
 
-                                if (sessionOnTime == null) {
-                                    sessionOnTime = new ArrayList<>();
-                                }
+                                if (onTime != null)
+                                    sessionOnTime.add(onTime.toArray(new String[onTime.size()]));
 
                                 Log.e(TAG, attendedNumber + "attendedNumber");
                                 Log.e(TAG, totalNum + "totalNum");
@@ -322,6 +325,9 @@ public class ClassInfoFragment extends Fragment implements View.OnClickListener 
                             Log.d(TAG, "Cached get failed: ", task.getException());
                         }
 
+                        Log.d(TAG, "classinfoFrag Session absents: " + sessionAbsentees);
+                        Log.d(TAG, "classinfoFrag Sesssion late: " + sessionLates);
+
                         // By using Fragment Manager to transact or change the Fragment with a new
                         // Fragment
                         transaction.replace(R.id.frameLayout,
@@ -330,13 +336,11 @@ public class ClassInfoFragment extends Fragment implements View.OnClickListener 
                                         sessionTimeStart.toArray(new String[sessionTimeStart.size()]),
                                         sessionTimeEnd.toArray(new String[sessionTimeEnd.size()]),
                                         sessionRatio.toArray(new String[sessionRatio.size()]),
-                                        sessionAbsentees.toArray(new String[sessionAbsentees.size()]),
-                                        sessionLates.toArray(new String[sessionLates.size()]),
-                                        sessionOnTime.toArray(new String[sessionOnTime.size()])))
+                                        sessionAbsentees.toArray(new String[sessionAbsentees.size()][]),
+                                        sessionLates.toArray(new String[sessionLates.size()][]),
+                                        sessionOnTime.toArray(new String[sessionOnTime.size()][])))
                                 .addToBackStack(null)
                                 .commit();
-
-
                     }
                 });
                 break;

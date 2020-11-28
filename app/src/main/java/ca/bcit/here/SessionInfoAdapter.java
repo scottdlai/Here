@@ -14,6 +14,8 @@ import android.widget.TextView;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.Arrays;
+
 import static android.content.ContentValues.TAG;
 
 public class SessionInfoAdapter extends RecyclerView.Adapter<SessionInfoAdapter.ViewHolder> {
@@ -21,42 +23,16 @@ public class SessionInfoAdapter extends RecyclerView.Adapter<SessionInfoAdapter.
     private String[] sessionTimeStart;
     private String[] sessionTimeEnd;
     private String[] sessionRatio;
-    private String[] absentees;
-    private String[] lateComers;
-    private String[] onTime;
+    private String[][] absentees;
+    private String[][] lateComers;
+    private String[][] onTime;
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         private CardView cardView;
 
         public ViewHolder(CardView v) {
             super(v);
             cardView = v;
-            v.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    // Pops up
-                    showDialog();
-                }
-            });
-        }
-
-        private void showDialog() {
-            final Dialog dialog = new Dialog(cardView.getContext());
-            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-            dialog.setContentView(R.layout.absent_late_list);
-
-            Spinner lateSpinner = dialog.findViewById(R.id.late_spinner);
-
-            Spinner absenteeSpinner = dialog.findViewById(R.id.absentee_spinner);
-
-            ArrayAdapter<String> lateAdapter =
-                    new ArrayAdapter<>(cardView.getContext(),
-                            R.layout.absent_late_list,
-                            lateComers);
-
-            lateSpinner.setAdapter(lateAdapter);
-
-            dialog.show();
         }
     }
 
@@ -70,9 +46,9 @@ public class SessionInfoAdapter extends RecyclerView.Adapter<SessionInfoAdapter.
             String[] sessionTimeStart,
             String[] sessionTimeEnd,
             String[] sessionRatio,
-            String[] absentees,
-            String[] lateComers,
-            String[] onTime) {
+            String[][] absentees,
+            String[][] lateComers,
+            String[][] onTime) {
         this.sessionDate = sessionDate;
         this.sessionTimeStart = sessionTimeStart;
         this.sessionTimeEnd = sessionTimeEnd;
@@ -107,5 +83,46 @@ public class SessionInfoAdapter extends RecyclerView.Adapter<SessionInfoAdapter.
 
         TextView TextView_ratio = cardView.findViewById(R.id.sessionRatio);
         TextView_ratio.setText(sessionRatio[position]);
+
+        cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDialog(cardView, position);
+            }
+        });
+    }
+
+    private void showDialog(CardView cardView, int i) {
+        final Dialog dialog = new Dialog(cardView.getContext());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.absent_late_list);
+
+        Log.d(TAG, "Late comers: " + Arrays.toString(lateComers));
+
+        Spinner lateSpinner = dialog.findViewById(R.id.late_spinner);
+
+        Spinner absenteeSpinner = dialog.findViewById(R.id.absentee_spinner);
+
+        ArrayAdapter<String> lateAdapter =
+                new ArrayAdapter<>(dialog.getContext(),
+                        android.R.layout.simple_spinner_item,
+                        lateComers[i]);
+
+        ArrayAdapter<String> absentAdapter =
+                new ArrayAdapter<>(dialog.getContext(),
+                        android.R.layout.simple_spinner_item,
+                        absentees[i]);
+
+        lateAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        absentAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        lateSpinner.setAdapter(lateAdapter);
+
+        absenteeSpinner.setAdapter(absentAdapter);
+
+        dialog.show();
+        Window window = dialog.getWindow();
+        window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
     }
 }

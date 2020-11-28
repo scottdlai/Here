@@ -61,4 +61,6 @@
     <string name="enter_code_btn_txt">Enter code</string>
     <string name="attendance_heading">attendance</string>
     <string name="class_list_label">Pick your class</string>
+    <string name="late_students_label">Late Students:</string>
+    <string name="absent_students_label">Absent Students:</string>
 </resources>

@@ -35,6 +35,7 @@ import com.google.firebase.firestore.SetOptions;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -258,6 +259,7 @@ public class FragmentClassListStudent extends Fragment {
                         course.put("Name", className);
                         course.put("StartDate", new Timestamp(date));
                         course.put("Teacher", username);
+                        course.put("Students", new ArrayList<String>());
 
                         Map<String,Object> userCourse = new HashMap<>();
                         userCourse.put("className",className);

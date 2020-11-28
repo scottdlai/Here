@@ -41,9 +41,9 @@ public class SessionFragment extends Fragment {
     private String[] sessionTimeStart;
     private String[] sessionTimeEnd;
     private String[] sessionRatio;
-    private String[] sessionAbsentees;
-    private String[] sessionLates;
-    private String[] sessionOnTime;
+    private String[][] sessionAbsentees;
+    private String[][] sessionLates;
+    private String[][] sessionOnTime;
 
     public SessionFragment() {
         // Required empty public constructor
@@ -54,17 +54,17 @@ public class SessionFragment extends Fragment {
                                               String[] timeStarts,
                                               String[] timeEnds,
                                               String[] ratios,
-                                              String[] absentees,
-                                              String[] lates,
-                                              String[] onTime) {
+                                              String[][] absentees,
+                                              String[][] lates,
+                                              String[][] onTime) {
         Bundle bundle = new Bundle();
         bundle.putStringArray(DATES_KEY, dates);
         bundle.putStringArray(TIME_START_KEY, timeStarts);
         bundle.putStringArray(TIME_END_KEY, timeEnds);
         bundle.putStringArray(RATIOS_KEY, ratios);
-        bundle.putStringArray(ABSENTEE_KEY, absentees);
-        bundle.putStringArray(LATE_KEY, lates);
-        bundle.putStringArray(ON_TIME_KEY, onTime);
+        bundle.putSerializable(ABSENTEE_KEY, absentees);
+        bundle.putSerializable(LATE_KEY, lates);
+        bundle.putSerializable(ON_TIME_KEY, onTime);
 
         SessionFragment fragment = new SessionFragment();
         fragment.setArguments(bundle);
@@ -78,9 +78,9 @@ public class SessionFragment extends Fragment {
             sessionTimeStart = bundle.getStringArray(TIME_START_KEY);
             sessionTimeEnd = bundle.getStringArray(TIME_END_KEY);
             sessionRatio = bundle.getStringArray(RATIOS_KEY);
-            sessionAbsentees = bundle.getStringArray(ABSENTEE_KEY);
-            sessionLates = bundle.getStringArray(LATE_KEY);
-            sessionOnTime = bundle.getStringArray(ON_TIME_KEY);
+            sessionAbsentees = (String[][]) bundle.get(ABSENTEE_KEY);
+            sessionLates = (String[][]) bundle.get(LATE_KEY);
+            sessionOnTime = (String[][]) bundle.get(ON_TIME_KEY);
         }
     }
 
