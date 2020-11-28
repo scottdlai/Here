@@ -33,6 +33,35 @@ public class SessionInfoAdapter extends RecyclerView.Adapter<SessionInfoAdapter.
         public ViewHolder(CardView v) {
             super(v);
             cardView = v;
+<<<<<<< HEAD
+            v.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Pops up
+                    showDialog();
+                }
+            });
+        }
+        
+        private void showDialog() {
+            final Dialog dialog = new Dialog(cardView.getContext());
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.setContentView(R.layout.absent_late_list);
+
+            Spinner lateSpinner = dialog.findViewById(R.id.late_spinner);
+
+            Spinner absenteeSpinner = dialog.findViewById(R.id.absentee_spinner);
+
+            ArrayAdapter<String> lateAdapter =
+                    new ArrayAdapter<>(cardView.getContext(),
+                            R.layout.absent_late_list,
+                            lateComers);
+
+            lateSpinner.setAdapter(lateAdapter);
+
+            dialog.show();
+=======
+>>>>>>> 1e9023f8d698acc9f56cfedcb25888f64a48d38c
         }
     }
 
