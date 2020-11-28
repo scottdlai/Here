@@ -39,7 +39,7 @@ public class SessionInfoAdapter extends RecyclerView.Adapter<SessionInfoAdapter.
                 }
             });
         }
-
+        
         private void showDialog() {
             final Dialog dialog = new Dialog(cardView.getContext());
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
