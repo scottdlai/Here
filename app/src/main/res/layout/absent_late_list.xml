@@ -9,7 +9,9 @@
         android:id="@+id/lateLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Late Students:" />
+        android:text="@string/late_students_label"
+        android:textSize="24sp"
+        android:textStyle="bold"/>
 
     <Spinner
         android:id="@+id/late_spinner"
@@ -20,7 +22,9 @@
         android:id="@+id/absentLabel"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Absent Students:" />
+        android:text="@string/absent_students_label"
+        android:textSize="24sp"
+        android:textStyle="bold"/>
 
     <Spinner
         android:id="@+id/absentee_spinner"

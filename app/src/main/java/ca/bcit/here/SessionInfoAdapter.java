@@ -122,5 +122,7 @@ public class SessionInfoAdapter extends RecyclerView.Adapter<SessionInfoAdapter.
         absenteeSpinner.setAdapter(absentAdapter);
 
         dialog.show();
+        Window window = dialog.getWindow();
+        window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
     }
 }
