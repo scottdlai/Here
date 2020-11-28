@@ -196,7 +196,7 @@ public class ClassInfoFragment extends Fragment implements View.OnClickListener 
                                            @Override
                                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                                if (task.isSuccessful()) {
-                                                   DocumentSnapshot document = task.getResult();
+                                                   final DocumentSnapshot document = task.getResult();
 
                                                    final String username = document.getString("username");
 
@@ -206,10 +206,11 @@ public class ClassInfoFragment extends Fragment implements View.OnClickListener 
                                                        @Override
                                                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                                            DocumentSnapshot classDocument = task.getResult();
+                                                           Log.d("TAG", "Class ID: " + classId);
+                                                           Log.d(TAG, "Class Document: " + document.getData());
                                                            String teacherUsername = classDocument.getString("Teacher");
-
                                                            //Is the teacher and user the same?.
-                                                            if(teacherUsername.equals(username)){
+                                                            if(teacherUsername != null && teacherUsername.equals(username)){
 
                                                                 //Put a new session at this time into the database.
                                                                 Map<String,Object> data = new HashMap<>();
