@@ -34,25 +34,6 @@ public class SessionInfoAdapter extends RecyclerView.Adapter<SessionInfoAdapter.
             super(v);
             cardView = v;
         }
-        
-        private void showDialog() {
-            final Dialog dialog = new Dialog(cardView.getContext());
-            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-            dialog.setContentView(R.layout.absent_late_list);
-
-            Spinner lateSpinner = dialog.findViewById(R.id.late_spinner);
-
-            Spinner absenteeSpinner = dialog.findViewById(R.id.absentee_spinner);
-
-            ArrayAdapter<String> lateAdapter =
-                    new ArrayAdapter<>(cardView.getContext(),
-                            R.layout.absent_late_list,
-                            lateComers);
-
-            lateSpinner.setAdapter(lateAdapter);
-
-            dialog.show();
-        }
     }
 
     @Override
