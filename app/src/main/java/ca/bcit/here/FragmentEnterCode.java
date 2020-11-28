@@ -154,6 +154,7 @@ public class FragmentEnterCode extends Fragment {
 //                                                    Check if the user is already in the list.
                                                     List<String> onTimeList = (List<String>) document.get("OnTime");
                                                     List<String> lateList = (List<String>) document.get("Late");
+                                                    List<String> absentList = (List<String>) document.get("Absent");
                                                     //Checks if the user has already join this session before.
                                                     if (!onTimeList.contains(username) && !lateList.contains(username)) {
 
@@ -164,9 +165,11 @@ public class FragmentEnterCode extends Fragment {
                                                         DocumentReference sessionDocRef = db.collection("Courses")
                                                                 .document(courseKey)
                                                                 .collection("Session").document(document.getId());
+
                                                         Map<String, Object> data = new HashMap<>();
-                                                        List<String> name = new LinkedList<>();
+                                                        List<String> name = new ArrayList<>();
                                                         name.add(username);
+
                                                         //Checks if the sessions is less than ten minutes old and will add the user to on time is it is
                                                         //Else it will be added to the Late list.
                                                         if (document.getTimestamp("Date").compareTo(tenBefore) > 0) {
@@ -178,7 +181,10 @@ public class FragmentEnterCode extends Fragment {
                                                             Toast.makeText(getActivity(), "Attendance taken as late",
                                                                     Toast.LENGTH_SHORT).show();
                                                         }
+                                                        absentList.remove(username);
+
                                                         data.put("Attended", onTimeList.size() + lateList.size() +1);
+                                                        data.put("Absent", absentList);
 
                                                         sessionDocRef.set(data, SetOptions.merge());
 
