@@ -3,21 +3,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ClassInfoFragment"
+    android:background="@color/bgLight"
     android:orientation="vertical"
-    android:background="@color/bgLight">
+    android:padding="10dp"
+    android:paddingTop="40dp"
+    tools:context=".ClassInfoFragment">
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:id="@+id/courseName"
-        android:textSize="30sp"/>
-
-    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:textSize="36sp"
+        android:textStyle="bold" />
+
+    <TextView
         android:id="@+id/courseTime"
-        android:textSize="30sp"/>
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:textSize="24sp" />
 
     <Button
         android:id="@+id/btnSeeSession"

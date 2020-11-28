@@ -78,8 +78,6 @@ public class SessionInfoAdapter extends RecyclerView.Adapter<SessionInfoAdapter.
         TextView TextView_timeStart = cardView.findViewById(R.id.sessionTimeStart);
         TextView_timeStart.setText(sessionTimeStart[position]);
 
-        TextView textView_timeEnd = cardView.findViewById(R.id.sessionTimeEnd);
-        textView_timeEnd.setText(sessionTimeEnd[position]);
 
         TextView TextView_ratio = cardView.findViewById(R.id.sessionRatio);
         TextView_ratio.setText(sessionRatio[position]);
