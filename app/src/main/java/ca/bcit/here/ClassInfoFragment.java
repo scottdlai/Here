@@ -177,7 +177,6 @@ public class ClassInfoFragment extends Fragment implements View.OnClickListener 
             }
 
         });
-
         // Gets a size of Student Map and sets it to 'totalNum' attribute
         setTotalStudentNumber();
 
